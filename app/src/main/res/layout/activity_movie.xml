@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <material.danny_jiang.com.xinxingmovie.view.CustomToolBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        app:imgSize="48dp"
+        app:leftImg="@drawable/custom_toolbar_menu"
+        app:leftTabText="正在热映"
+        app:rightImg="@drawable/custom_toolbar_add"
+        app:rightTabText="即将上映"
+        app:tabTextBackground="@android:color/white"
+        app:tabTextColors="@color/colorPrimary" />
+
+    <fragment
+        android:id="@+id/frag_NewComing"
+        android:name="material.danny_jiang.com.xinxingmovie.fragment.NewComingFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

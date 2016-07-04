@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="230dp"
+    android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:background="@color/colorPrimary"
+    >
+
+    <ImageView
+        android:id="@+id/movieDetailImage"
+        android:src="@drawable/ic_launcher"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:padding="10dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:paddingLeft="10dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:paddingTop="30dp"
+            >
+
+            <TextView
+                android:id="@+id/movieDetailTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold"
+                android:text="惊天魔盗团"
+                android:textColor="@android:color/white"
+                />
+
+            <TextView
+                android:id="@+id/movieDetailCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textColorSecondary"
+                android:text="美国"
+                android:textColor="@android:color/white"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/movieDetailActs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="40dp"
+            >
+
+            <TextView
+                android:id="@+id/movieDetailType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textColorSecondary"
+                android:text="科幻/动作"
+                android:textColor="@android:color/white"
+                />
+
+            <TextView
+                android:id="@+id/movieDetailDirector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textColorSecondary"
+                android:text="导演"
+                android:textColor="@android:color/white"
+                />
+
+            <TextView
+                android:id="@+id/movieDetailTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textColorSecondary"
+                android:text="2016.06.24上映"
+                android:textColor="@android:color/white"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

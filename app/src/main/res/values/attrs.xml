@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 自定义属性的名称尽量跟自定义的View名称对应-->
+    <declare-styleable name="CustomToolBar">
+        <attr name="leftTabText" format="string|reference"></attr>
+        <attr name="rightTabText" format="string|reference"></attr>
+        <attr name="tabTextColors" format="color|reference"></attr>
+        <attr name="tabTextBackground" format="color|reference"></attr>
+        <attr name="tabTextSize" format="dimension|reference"></attr>
+        <attr name="imgSize" format="dimension|reference"></attr>
+        <attr name="leftImg" format="reference"></attr>
+        <attr name="rightImg" format="reference"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="MoreTextStyle">
+        <attr name="moreTextSize" format="dimension"/>
+        <attr name="moreTextColor" format="color"/>
+        <attr name="moreMaxLine" format="integer" />
+        <attr name="moreText" format="string" />
+    </declare-styleable>
+
+</resources>
