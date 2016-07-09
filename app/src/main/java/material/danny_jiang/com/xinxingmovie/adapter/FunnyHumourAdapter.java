@@ -22,6 +22,7 @@ import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
 import com.volokh.danylo.video_player_manager.meta.MetaData;
 import com.volokh.danylo.video_player_manager.ui.MediaPlayerWrapper;
 import com.volokh.danylo.video_player_manager.ui.SimpleMainThreadMediaPlayerListener;
+import com.volokh.danylo.video_player_manager.ui.UniversalMediaController;
 import com.volokh.danylo.video_player_manager.ui.VideoPlayerView;
 import com.volokh.danylo.video_player_manager.utils.Logger;
 
@@ -84,27 +85,29 @@ public class FunnyHumourAdapter extends BaseAdapter {
             holder.text = ((TextView) convertView.findViewById(R.id.funnyHumourTitle));
             holder.pieImageView = ((PieImageView) convertView.findViewById(R.id.funnyHumourCover));
             holder.play = ((ImageView) convertView.findViewById(R.id.funnyHumourPlay));
-            holder.progressBar = ((ProgressBar) convertView.findViewById(R.id.funnyHumourProgress));
+            holder.controller = ((UniversalMediaController) convertView.findViewById(R.id.media_controller));
             holder.videoPlayerView = ((VideoPlayerView) convertView.findViewById(R.id.funnyHumourVideo));
+            holder.controller.setMediaPlayer(holder.videoPlayerView);
+            holder.videoPlayerView.setMediaController(holder.controller);
             holder.videoPlayerView.addMediaPlayerListener(new SimpleMainThreadMediaPlayerListener() {
-                @Override
-                public void onBufferingUpdateMainThread(int percent) {
-                    super.onBufferingUpdateMainThread(percent);
-                    Log.e("TAG", "onBufferingUpdateMainThread: percent is " + percent);
-
-                }
 
                 @Override
                 public void onVideoStoppedMainThread() {
                     super.onVideoStoppedMainThread();
                     Log.e("TAG", "onVideoStoppedMainThread: ");
+                    finalHolder.pieImageView.setVisibility(View.VISIBLE);
+                    finalHolder.play.setVisibility(View.VISIBLE);
+
+                    /**
+                     * controller需要reset，放置此Controller继续发送progress的Message
+                     */
+//                    finalHolder.controller.reset();
                 }
 
                 @Override
                 public void onVideoPreparedMainThread() {
                     Log.e("TAG", "onVideoPreparedMainThread: ");
                     super.onVideoPreparedMainThread();
-                    finalHolder.progressBar.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -121,37 +124,11 @@ public class FunnyHumourAdapter extends BaseAdapter {
                     super.onInfo(what, extra);
                     Log.e("TAG", "onInfo: what is " + what + " extra is " + extra);
                     switch (what) {
-                        case MediaPlayer.MEDIA_INFO_UNKNOWN:
-                            Log.e("TAG", "onInfo, MEDIA_INFO_UNKNOWN");
-                            break;
-                        case MediaPlayer.MEDIA_INFO_VIDEO_TRACK_LAGGING:
-                            Log.e("TAG", "printInfo: MEDIA_INFO_VIDEO_TRACK_LAGGING");
-                            break;
-                        case MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
-                            Log.e("TAG", "printInfo: MEDIA_INFO_VIDEO_RENDERING_START");
-                            break;
                         case MediaPlayer.MEDIA_INFO_BUFFERING_START:
                             Log.e("TAG", "printInfo: MEDIA_INFO_BUFFERING_START");
-                            finalHolder.progressBar.setVisibility(View.VISIBLE);
                             break;
                         case MediaPlayer.MEDIA_INFO_BUFFERING_END:
                             Log.e("TAG", "printInfo: MEDIA_INFO_BUFFERING_END");
-                            finalHolder.progressBar.setVisibility(View.INVISIBLE);
-                            break;
-                        case MediaPlayer.MEDIA_INFO_BAD_INTERLEAVING:
-                            Log.e("TAG", "printInfo: MEDIA_INFO_BAD_INTERLEAVING");
-                            break;
-                        case MediaPlayer.MEDIA_INFO_NOT_SEEKABLE:
-                            Log.e("TAG", "printInfo: MEDIA_INFO_NOT_SEEKABLE");
-                            break;
-                        case MediaPlayer.MEDIA_INFO_METADATA_UPDATE:
-                            Log.e("TAG", "printInfo: MEDIA_INFO_METADATA_UPDATE");
-                            break;
-                        case MediaPlayer.MEDIA_INFO_UNSUPPORTED_SUBTITLE:
-                            Log.e("TAG", "printInfo: MEDIA_INFO_UNSUPPORTED_SUBTITLE");
-                            break;
-                        case MediaPlayer.MEDIA_INFO_SUBTITLE_TIMED_OUT:
-                            Log.e("TAG", "printInfo: MEDIA_INFO_SUBTITLE_TIMED_OUT");
                             break;
                     }
                 }
@@ -203,11 +180,9 @@ public class FunnyHumourAdapter extends BaseAdapter {
                 if (currentPlayPosition != position) {
                     finalHolder.pieImageView.setVisibility(View.INVISIBLE);
                     finalHolder.play.setVisibility(View.INVISIBLE);
-                    finalHolder.progressBar.setVisibility(View.VISIBLE);
 
                     currentPlayPosition = position;
                     mVideoPlayerManager.playNewVideo(null, finalHolder.videoPlayerView, mp4_url);
-
                 }
             }
         });
@@ -218,6 +193,12 @@ public class FunnyHumourAdapter extends BaseAdapter {
                 Log.e("TAG", "onClick: VideoView clicked");
                 Toast.makeText(context, "播放到: " + finalHolder.videoPlayerView.getCurrentPosition(),
                         Toast.LENGTH_SHORT).show();
+
+//                if (!finalHolder.controller.isShowing()) {
+//                    finalHolder.controller.show();
+//                } else {
+//                    finalHolder.controller.hide();
+//                }
             }
         });
 
@@ -244,6 +225,6 @@ public class FunnyHumourAdapter extends BaseAdapter {
         PieImageView pieImageView;
         ImageView play;
         VideoPlayerView videoPlayerView;
-        ProgressBar progressBar;
+        UniversalMediaController controller;
     }
 }

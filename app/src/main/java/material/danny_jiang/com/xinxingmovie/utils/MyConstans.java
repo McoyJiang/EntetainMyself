@@ -51,6 +51,9 @@ public class MyConstans {
     public static final String FUNNY_VIDEO_HUMOUR =
             "http://c.3g.163.com/nc/video/Tlist/T1457069041911/%d-10.html";
 
+    public static final String FUNNY_VIDEO_PET =
+            "http://c.3g.163.com/nc/video/Tlist/T1457069232830/%d-10.html";
+
     public static final String FUNNY_VIDEO_TITLE = "http://c.3g.163.com/nc/video/topiclist.html";
 
 

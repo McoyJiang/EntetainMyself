@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
 
@@ -36,7 +37,8 @@ import java.util.Set;
 public class VideoPlayerView extends ScalableTextureView
         implements TextureView.SurfaceTextureListener,
         MediaPlayerWrapper.MainThreadMediaPlayerListener,
-        MediaPlayerWrapper.VideoStateListener {
+        MediaPlayerWrapper.VideoStateListener,
+        UniversalMediaController.MediaPlayerControl{
 
     private static final boolean SHOW_LOGS = Config.SHOW_LOGS;
     private String TAG;
@@ -182,6 +184,10 @@ public class VideoPlayerView extends ScalableTextureView
     public void prepare() {
         checkThread();
         synchronized (mReadyForPlaybackIndicator) {
+            if (mMediaController != null) {
+                Log.e("JIANG", "showLoading");
+                mMediaController.showLoading();
+            }
             mMediaPlayer.prepare();
         }
     }
@@ -213,8 +219,13 @@ public class VideoPlayerView extends ScalableTextureView
     public void start(){
         if (SHOW_LOGS) Logger.v(TAG, ">> start");
         synchronized (mReadyForPlaybackIndicator){
+
             if(mReadyForPlaybackIndicator.isReadyForPlayback()){
                 mMediaPlayer.start();
+                if (mMediaController != null) {
+                    Log.e("JIANG", "hideLoading");
+                    mMediaController.hideLoading();
+                }
             } else {
                 if (SHOW_LOGS) Logger.v(TAG, "start, >> wait");
                 if(!mReadyForPlaybackIndicator.isFailedToPrepareUiForPlayback()){
@@ -227,6 +238,10 @@ public class VideoPlayerView extends ScalableTextureView
                     if (SHOW_LOGS) Logger.v(TAG, "start, << wait");
 
                     if(mReadyForPlaybackIndicator.isReadyForPlayback()){
+                        if (mMediaController != null) {
+                            Log.e("JIANG", "hideLoading");
+                            mMediaController.hideLoading();
+                        }
                         mMediaPlayer.start();
                     } else {
                         if (SHOW_LOGS) Logger.w(TAG, "start, movie is not ready, Player become STARTED state, but it will actually don't play");
@@ -415,6 +430,7 @@ public class VideoPlayerView extends ScalableTextureView
 
     @Override
     public void onVideoPreparedMainThread() {
+        Log.e("JIANG", "onVideoPreparedMainThread: ");
         notifyOnVideoPreparedMainThread();
 
         if (mMediaPlayerListenerBackgroundThread != null) {
@@ -455,6 +471,9 @@ public class VideoPlayerView extends ScalableTextureView
 
     @Override
     public void onVideoStoppedMainThread() {
+        if (mMediaController != null) {
+            mMediaController.reset();
+        }
         notifyOnVideoStopped();
     }
 
@@ -717,5 +736,63 @@ public class VideoPlayerView extends ScalableTextureView
             default:
                 throw new RuntimeException("unexpected");
         }
+    }
+
+    private UniversalMediaController mMediaController;
+
+    public void setMediaController(UniversalMediaController controller) {
+        mMediaController = controller;
+        if (mMediaController != null) {
+            mMediaController.hide();
+        }
+    }
+
+    @Override
+    public void seekTo(int pos) {
+        Log.e("TAG", "seekTo: duration is " + mMediaPlayer.getDuration() + " pos is" + pos);
+        mMediaPlayer.seekToPercent(pos);
+    }
+
+    @Override
+    public boolean isPlaying() {
+        if (mMediaPlayer == null) {
+            return false;
+        }
+        return mMediaPlayer.isPlaying();
+    }
+
+    @Override
+    public int getBufferPercentage() {
+        return 0;
+    }
+
+    @Override
+    public boolean canPause() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekBackward() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekForward() {
+        return true;
+    }
+
+    @Override
+    public void closePlayer() {
+        release();
+    }
+
+    @Override
+    public void setFullscreen(boolean fullscreen) {
+
+    }
+
+    @Override
+    public void setFullscreen(boolean fullscreen, int screenOrientation) {
+
     }
 }

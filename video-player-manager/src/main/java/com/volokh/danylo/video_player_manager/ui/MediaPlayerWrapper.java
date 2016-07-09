@@ -594,8 +594,8 @@ public abstract class MediaPlayerWrapper
                 case STARTED:
                 case PAUSED:
                 case PLAYBACK_COMPLETED:
-                    int positionMillis = (int) ((float) percent / 100f * getDuration());
-                    mMediaPlayer.seekTo(positionMillis);
+                    //int positionMillis = (int) ((float) percent / 100f * getDuration());
+                    mMediaPlayer.seekTo(percent);
                     notifyPositionUpdated();
                     break;
             }

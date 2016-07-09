@@ -22,6 +22,7 @@ import material.danny_jiang.com.xinxingmovie.bean.FunnyTitleBean;
 import material.danny_jiang.com.xinxingmovie.entity.TabEntity;
 import material.danny_jiang.com.xinxingmovie.fragment.FunnyHumourFragment;
 import material.danny_jiang.com.xinxingmovie.fragment.FunnyRecommendFragment;
+import material.danny_jiang.com.xinxingmovie.fragment.PetFragment;
 import material.danny_jiang.com.xinxingmovie.fragment.SimpleCardFragment;
 import material.danny_jiang.com.xinxingmovie.network.Requestor;
 import material.danny_jiang.com.xinxingmovie.network.VolleySingleTon;
@@ -93,6 +94,8 @@ public class FunnyVideoActivity extends BaseActivity {
             fragment = FunnyRecommendFragment.newInstance(MyConstans.FUNNY_VIDEO_RECOMMEND);
         } else if ("搞笑".equals(tName)) {
             fragment = FunnyHumourFragment.newInstance(MyConstans.FUNNY_VIDEO_HUMOUR);
+        } else if ("萌物".equals(tName)) {
+            fragment = PetFragment.newInstance(MyConstans.FUNNY_VIDEO_PET);
         }
         return fragment;
     }
